@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WeightLiftTracker.Views.WorkoutLogPage"
+             Title="{Binding Title}"
+             xmlns:local="clr-namespace:WeightLiftTracker.ViewModels"  
+             xmlns:model="clr-namespace:WeightLiftTracker.Models"  
+             x:Name="Browse"
+             BackgroundColor="{AppThemeBinding Light=White, Dark=Black}">
+
+    <RefreshView x:DataType="local:WorkoutLogViewModel" Command="{Binding LoadWorkoutsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+        <CollectionView x:Name="ItemsListView"
+                ItemsSource="{Binding Workouts}"
+                SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Padding="10, 10, 10, 10" x:DataType="model:Workout">
+                        <StackLayout BackgroundColor="{StaticResource Primary}">
+                            <!--Routine Name-->
+                            <SwipeView >
+                                <SwipeView.RightItems>
+                                    <SwipeItems>
+                                        <SwipeItem 
+                                                Text="Delete"
+                                                BackgroundColor="Red"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:WorkoutLogViewModel}}, Path=DeleteWorkoutCommand}"
+                                                CommandParameter="{Binding .}" />
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
+                                <Grid>
+                                    <Label 
+                                            Text="{Binding RoutineName}" 
+                                            HorizontalTextAlignment="Center"
+                                            VerticalOptions="Center"
+                                            FontSize="20" 
+                                            Padding="0, 0, 0, 0"/>
+                                </Grid>
+                            </SwipeView>
+                            <Grid Padding="40, 0, 0, 0">
+                                <!--Date-->
+                                <Label Grid.Column="0"
+                                       Grid.Row="1"
+                                       Text="Date: " 
+                                       LineBreakMode="NoWrap" 
+                                       Style="{DynamicResource ListItemTextStyle}" 
+                                       FontSize="16"/>
+                                <Label Grid.Column="1"
+                                       Grid.Row="1"
+                                       Text="{Binding StartTime.Date, StringFormat='{0:MM/dd/yyyy}'}" 
+                                       LineBreakMode="NoWrap" 
+                                       Style="{DynamicResource ListItemTextStyle}" 
+                                       FontSize="16"/>
+                                <!--Duration-->
+                                <Label Grid.Column="0"
+                                       Grid.Row="2"
+                                       Text="Duration: " 
+                                       LineBreakMode="NoWrap" 
+                                       Style="{DynamicResource ListItemTextStyle}" 
+                                       FontSize="16"/>
+                                <Label Grid.Column="1"
+                                       Grid.Row="2"
+                                       Text="{Binding Duration, StringFormat='{0:hh\\:mm}'}" 
+                                       LineBreakMode="NoWrap" 
+                                       Style="{DynamicResource ListItemTextStyle}" 
+                                       FontSize="16"/>
+                            </Grid>
+                        </StackLayout>
+                        <BoxView
+                            HeightRequest="20"
+                            HorizontalOptions="FillAndExpand">
+                        </BoxView>
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer 
+                                NumberOfTapsRequired="1"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:WorkoutLogViewModel}}, Path=ItemTapped}"
+                                CommandParameter="{Binding .}"
+                                >
+                            </TapGestureRecognizer>
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </RefreshView>
+</ContentPage>

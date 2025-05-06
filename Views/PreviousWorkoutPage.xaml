@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:viewmodels="clr-namespace:WeightLiftTracker.ViewModels" xmlns:model="clr-namespace:WeightLiftTracker.Models" xmlns:controls="clr-namespace:WeightLiftTracker.Controls"
+             BackgroundColor="{AppThemeBinding Light=White, Dark=Black}"
+             x:Class="WeightLiftTracker.Views.PreviousWorkoutPage"
+             Title="{Binding Title}">
+
+
+    <ContentPage.Resources>
+        <DataTemplate x:Key="WeightSetTemplate">
+            <Grid Padding="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Label BackgroundColor="{StaticResource Primary}"
+                       Grid.Row="0"
+                       Grid.Column="0"
+                       HorizontalTextAlignment="Center"
+                       Text="Weight"
+                       FontSize="16" />
+                <Label BackgroundColor="{StaticResource Primary}"
+                       Grid.Row="0"
+                       Grid.Column="1"
+                       HorizontalTextAlignment="Center"
+                       Text="Reps"
+                       FontSize="16" />
+                <Label BackgroundColor="{StaticResource Primary}"
+                       Grid.Row="0"
+                       Grid.Column="2"
+                       HorizontalTextAlignment="Center"
+                       Text="Notes"
+                       FontSize="16" />
+                <Entry Grid.Row="1"
+                       Grid.Column="0" 
+                       Text="{Binding Weight, Mode=TwoWay}" 
+                       FontSize="Medium" 
+                       Keyboard="Numeric"
+                       IsReadOnly="True"/>
+                <Entry Grid.Row="1"
+                       Grid.Column="1" 
+                       Text="{Binding Reps, Mode=TwoWay}" 
+                       FontSize="Medium" 
+                       Keyboard="Numeric"
+                       IsReadOnly="True"/>
+                <Entry Grid.Row="1"
+                       Grid.Column="2" 
+                       Text="{Binding Notes, Mode=TwoWay}" 
+                       FontSize="Medium" 
+                       IsReadOnly="True"/>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="CardioSetTemplate">
+            <Grid Padding="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Label BackgroundColor="{StaticResource Primary}"
+                       Grid.Column="0"
+                       Grid.Row="0"
+                       HorizontalTextAlignment="Center"
+                       Text="Minutes"
+                       FontSize="16" />
+                <Label BackgroundColor="{StaticResource Primary}"
+                       Grid.Column="1"
+                       Grid.Row="0"
+                       HorizontalTextAlignment="Center"
+                       Text="Seconds"
+                       FontSize="16" />
+                <Label BackgroundColor="{StaticResource Primary}"
+                       Grid.Column="2"
+                       Grid.Row="0"
+                       HorizontalTextAlignment="Center"
+                       Text="Distance"
+                       FontSize="16" />
+                <Entry Grid.Column="0" 
+                       Grid.Row="1" 
+                       Text="{Binding Minutes, Mode=TwoWay}" 
+                       FontSize="Medium" 
+                       Keyboard="Numeric"
+                       IsReadOnly="True"/>
+                <Entry Grid.Column="1" 
+                       Grid.Row="1" 
+                       Text="{Binding Seconds, Mode=TwoWay}" 
+                       FontSize="Medium" 
+                       Keyboard="Numeric"
+                       IsReadOnly="True"/>
+                <Entry Grid.Column="2" 
+                       Grid.Row="1" 
+                       Text="{Binding Distance, Mode=TwoWay}" 
+                       FontSize="Medium" 
+                       Keyboard="Numeric"
+                       IsReadOnly="True"/>
+                <Label BackgroundColor="{StaticResource Primary}"
+                       Grid.Column="0"
+                       Grid.Row="2"
+                       HorizontalTextAlignment="Center"
+                       Text="Notes"
+                       FontSize="16" />
+                <Entry Grid.Column="0"
+                       Grid.Row="3" 
+                       Text="{Binding Notes, Mode=TwoWay}" 
+                       FontSize="Medium" 
+                       IsReadOnly="True"/>
+            </Grid>
+        </DataTemplate>
+        <controls:WorkoutSetTemplateSelector x:Key="WorkoutSetTemplateSelector"
+                                             WeightSetTemplate="{StaticResource WeightSetTemplate}"
+                                             CardioSetTemplate="{StaticResource CardioSetTemplate}" />
+    </ContentPage.Resources>
+
+    <StackLayout 
+        x:DataType="viewmodels:PreviousWorkoutViewModel" >
+        <CollectionView 
+            ItemsSource="{Binding Exercises}"
+            ItemTemplate="{StaticResource WorkoutSetTemplateSelector}"
+            IsGrouped="true">
+            <CollectionView.Header>
+                <StackLayout
+                    BackgroundColor="{StaticResource Primary}">
+                    <BoxView
+                        HeightRequest="3"
+                        BackgroundColor="Black"
+                        HorizontalOptions="FillAndExpand">
+                    </BoxView>
+                    <Label 
+                        Text="{Binding Workout.RoutineName}"
+                        FontSize="26"
+                        HorizontalTextAlignment="Center">
+                    </Label>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label 
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            Text="Start:" 
+                            HorizontalTextAlignment="Center"
+                            FontSize="18" />
+                        <Label 
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            Text="End:" 
+                            HorizontalTextAlignment="Center"
+                            FontSize="18" />
+                        <TimePicker 
+                            Grid.Column="0"
+                            Grid.Row="1"
+                            Time="{Binding StartTime}"
+                            HorizontalOptions="CenterAndExpand"
+                            IsEnabled="False"></TimePicker>
+                        <TimePicker 
+                            Grid.Column="1"
+                            Grid.Row="1"
+                            Time="{Binding EndTime}"
+                            HorizontalOptions="CenterAndExpand"
+                            IsEnabled="False"></TimePicker>
+                    </Grid>
+                    <BoxView
+                        HeightRequest="3"
+                        BackgroundColor="Black"
+                        HorizontalOptions="FillAndExpand">
+                    </BoxView>
+                </StackLayout>
+            </CollectionView.Header>
+            <CollectionView.EmptyView>
+                <Label 
+                    Text="Empty :(">
+                </Label>
+            </CollectionView.EmptyView>
+            <CollectionView.GroupHeaderTemplate>
+                <DataTemplate>
+                    <StackLayout 
+                        x:DataType="model:WorkoutExercise" 
+                        Padding="5, 5, 5, 5"
+                            BackgroundColor="{StaticResource Primary}">
+                        <Grid HeightRequest="40">
+                            <Label 
+                                Text="{Binding ExerciseName}" 
+                                HorizontalTextAlignment="Center"
+                                VerticalOptions="Center"
+                                FontSize="20" 
+                                Padding="0, 0, 0, 0"/>
+                        </Grid>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.GroupHeaderTemplate>
+            <CollectionView.GroupFooterTemplate>
+                <DataTemplate>
+                    <StackLayout 
+                        x:DataType="model:WorkoutExercise" 
+                        Padding="10" 
+                        HorizontalOptions="End">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                        </Grid>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.GroupFooterTemplate>
+            <CollectionView.Footer>
+                <StackLayout 
+                    Padding="40, 50, 40, 100">
+                </StackLayout>
+            </CollectionView.Footer>
+        </CollectionView>
+    </StackLayout>
+</ContentPage>

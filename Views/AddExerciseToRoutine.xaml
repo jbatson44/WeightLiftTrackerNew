@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WeightLiftTracker.Views.AddExerciseToRoutine"
+             Shell.PresentationMode="ModalAnimated"
+             Title="New Item"
+             xmlns:viewmodels="clr-namespace:WeightLiftTracker.ViewModels" x:DataType="viewmodels:AddExerciseViewModel"
+             BackgroundColor="{AppThemeBinding Light=White, Dark=Black}">
+    <ContentPage.Content>
+        <StackLayout Spacing="3" Padding="15">
+            <Label Text="Select Exercise" FontSize="Medium" />
+            <Picker Title="Exercises"
+                    ItemsSource="{Binding Exercises}"
+                    ItemDisplayBinding="{Binding Name}"
+                    SelectedItem="{Binding SelectedExercise}">
+            </Picker>
+            <StackLayout Orientation="Horizontal" Margin="0, 0, 0, 20">
+                <Button Text="Cancel" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"></Button>
+                <Button Text="Add" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand"></Button>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Button Text="Create New Exercise" Command="{Binding NewExerciseCommand}" HorizontalOptions="FillAndExpand"></Button>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+
+</ContentPage>

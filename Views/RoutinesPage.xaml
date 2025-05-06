@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WeightLiftTracker.Views.RoutinesPage"
+             Title="Routines"
+             xmlns:local="clr-namespace:WeightLiftTracker.ViewModels"  
+             xmlns:model="clr-namespace:WeightLiftTracker.Models"  
+             x:Name="Browse"
+             BackgroundColor="{AppThemeBinding Light=White, Dark=Black}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Command="{Binding AddRoutineCommand}" />
+    </ContentPage.ToolbarItems>
+    <!--
+      x:DataType enables compiled bindings for better performance and compile time validation of binding expressions.
+      https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/data-binding/compiled-bindings
+    -->
+    <StackLayout>
+        <RefreshView x:DataType="local:RoutinesViewModel" Command="{Binding LoadRoutinesCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+            <CollectionView x:Name="ItemsListView"
+                    ItemsSource="{Binding Routines}"
+                    SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <SwipeView Padding="10" x:DataType="model:Routine">
+                            <SwipeView.RightItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="Delete"
+                                       BackgroundColor="Red"
+                                       Command="{Binding Source={RelativeSource AncestorType={x:Type local:RoutinesViewModel}}, Path=DeleteRoutineCommand}"
+                                       CommandParameter="{Binding .}" />
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50"/>
+                                </Grid.RowDefinitions>
+                                <Label Text="{Binding Name}" 
+                                        LineBreakMode="NoWrap" 
+                                        Style="{DynamicResource ListItemTextStyle}" 
+                                        FontSize="20"
+                                        HorizontalOptions="StartAndExpand"
+                                        VerticalOptions="Center"/>
+                            </Grid>
+                            <SwipeView.GestureRecognizers>
+                                <TapGestureRecognizer 
+                                    NumberOfTapsRequired="1"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:RoutinesViewModel}}, Path=ItemTapped}"		
+                                    CommandParameter="{Binding .}">
+                                </TapGestureRecognizer>
+                            </SwipeView.GestureRecognizers>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+        <Button Text="Resume Workout"
+                IsVisible="{Binding }"
+                Command="{Binding function}"
+                CommandParameter="{Binding .}"
+                BackgroundColor="{StaticResource Primary}"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"/>
+    </StackLayout>
+</ContentPage>

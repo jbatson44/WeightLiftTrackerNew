@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WeightLiftTracker.Views.ExercisesListPage"
+             Title="{Binding Title}"
+             xmlns:local="clr-namespace:WeightLiftTracker.ViewModels"  
+             xmlns:model="clr-namespace:WeightLiftTracker.Models"  
+             x:Name="Browse"
+             BackgroundColor="{AppThemeBinding Light=White, Dark=Black}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Command="{Binding AddExerciseCommand}" />
+    </ContentPage.ToolbarItems>
+    <!--
+      x:DataType enables compiled bindings for better performance and compile time validation of binding expressions.
+      https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/data-binding/compiled-bindings
+    -->
+    <RefreshView x:DataType="local:ExercisesListViewModel" Command="{Binding LoadExercisesCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+        <CollectionView x:Name="ItemsListView"
+                ItemsSource="{Binding Exercises}"
+                        IsGrouped="True"
+                SelectionMode="None">
+
+            <CollectionView.GroupHeaderTemplate>
+                <DataTemplate>
+                    <StackLayout Padding="10" x:DataType="model:ExerciseList" BackgroundColor="Gray">
+                        <Label Text="{Binding Category}" 
+                                LineBreakMode="NoWrap" 
+                                Style="{DynamicResource ListItemTextStyle}" 
+                                FontSize="16"
+                                HorizontalOptions="StartAndExpand"
+                                VerticalOptions="Center">
+                        </Label>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.GroupHeaderTemplate>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <SwipeView x:DataType="model:Exercise">
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Delete"
+                                   BackgroundColor="Red"
+                                   Command="{Binding Source={RelativeSource AncestorType={x:Type local:ExercisesListViewModel}}, Path=DeleteExerciseCommand}"
+                                   CommandParameter="{Binding .}" />
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                            </Grid.RowDefinitions>
+                            <Label Text="{Binding Name}" 
+                                  Padding="30,0,0,0"
+                                LineBreakMode="NoWrap" 
+                                Style="{DynamicResource ListItemTextStyle}" 
+                                FontSize="20"
+                                HorizontalOptions="StartAndExpand"
+                                VerticalOptions="Center"/>
+                        </Grid>
+                        <SwipeView.GestureRecognizers>
+                            <TapGestureRecognizer 
+                                NumberOfTapsRequired="1"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:ExercisesListViewModel}}, Path=ItemTapped}"		
+                                CommandParameter="{Binding .}">
+                            </TapGestureRecognizer>
+                        </SwipeView.GestureRecognizers>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </RefreshView>
+</ContentPage>
