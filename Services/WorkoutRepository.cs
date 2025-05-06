@@ -21,12 +21,9 @@ namespace WeightLiftTracker.Services
         }
 
         #region Get Methods
-        public Workout GetActiveWorkout()
+        public Task<Workout> GetActiveWorkout()
         {
-            return database.QueryAsync<Workout>(@"
-SELECT * 
-FROM Workout
-WHERE Finished = 0").Result.First();
+            return database.Table<Workout>().Where(i => i.Finished == false).FirstOrDefaultAsync();
         }
 
         public Task<List<Routine>> GetAllRoutines()

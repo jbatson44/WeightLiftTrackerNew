@@ -35,7 +35,7 @@ namespace WeightLiftTracker.ViewModels
 
             try
             {
-                ActiveWorkout = App.Database.GetActiveWorkout();
+                ActiveWorkout = await App.Database.GetActiveWorkout();
                 if (ActiveWorkout != null)
                 {
                     HasActiveWorkout = true;
