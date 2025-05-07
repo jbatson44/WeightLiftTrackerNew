@@ -13,7 +13,7 @@
     
     <ContentPage.Resources>
         <DataTemplate x:Key="WeightSetTemplate">
-            <SwipeView Padding="10" 
+            <SwipeView 
                        x:DataType="model:WorkoutSet">
                 <SwipeView.RightItems>
                     <SwipeItems>
@@ -248,10 +248,6 @@
                         Padding="10" 
                         HorizontalOptions="End">
                         <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
                             <Button 
                                 Text="Add Set"
                                 Grid.Column="1"

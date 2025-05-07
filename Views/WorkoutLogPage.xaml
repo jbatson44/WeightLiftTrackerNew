@@ -37,7 +37,16 @@
                                             Padding="0, 0, 0, 0"/>
                                 </Grid>
                             </SwipeView>
-                            <Grid Padding="40, 0, 0, 0">
+                            <Grid Padding="40, 20, 0, 0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
                                 <!--Date-->
                                 <Label Grid.Column="0"
                                        Grid.Row="1"
@@ -68,7 +77,7 @@
                         </StackLayout>
                         <BoxView
                             HeightRequest="20"
-                            HorizontalOptions="FillAndExpand">
+                            HorizontalOptions="End">
                         </BoxView>
                         <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer 
