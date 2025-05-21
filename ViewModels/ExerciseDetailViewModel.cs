@@ -12,11 +12,17 @@ namespace WeightLiftTracker.ViewModels
         }
         public Exercise Exercise { get; set; }
         public ObservableCollection<Set> LastWorkout { get; set; }
-        int epleyOneRepMax = 0;
-        public int EpleyOneRepMax
+        int oneRepMaxEpley = 0;
+        public int OneRepMaxEpley
         {
-            get { return epleyOneRepMax; }
-            set { SetProperty(ref epleyOneRepMax, value); }
+            get { return oneRepMaxEpley; }
+            set { SetProperty(ref oneRepMaxEpley, value); }
+        }
+        int oneRepMaxBrzycki = 0;
+        public int OneRepMaxBrzycki
+        {
+            get { return oneRepMaxBrzycki; }
+            set { SetProperty(ref oneRepMaxBrzycki, value); }
         }
         public async void LoadEverything(string exerciseId)
         {
@@ -41,7 +47,8 @@ namespace WeightLiftTracker.ViewModels
         private async void SetOneRepMaxEstimate()
         {
             var highestWeightSet = await App.Database.GetHighestWeightSet(Exercise.Id);
-            EpleyOneRepMax = (int)(highestWeightSet.Weight * (1 + highestWeightSet.Reps / 30.0));
+            OneRepMaxEpley = (int)(highestWeightSet.Weight * (1 + highestWeightSet.Reps / 30.0));
+            OneRepMaxBrzycki = (int)(highestWeightSet.Weight * (36.0 / (37 - highestWeightSet.Reps)));
         }
 
         public ExerciseDetailViewModel()

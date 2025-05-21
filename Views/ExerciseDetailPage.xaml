@@ -45,8 +45,11 @@
         <StackLayout>
             <Label Text="Estimated 1 REP Max (Epley Formula)">
             </Label>
-            <Label Text="{Binding EpleyOneRepMax, Mode=TwoWay}">
-                
+            <Label Text="{Binding OneRepMaxEpley, Mode=TwoWay}">
+            </Label>
+            <Label Text="Estimated 1 REP Max (Brzycki Formula)">
+            </Label>
+            <Label Text="{Binding OneRepMaxBrzycki, Mode=TwoWay}">
             </Label>
         </StackLayout>
     </StackLayout>
