@@ -42,5 +42,12 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+        <StackLayout>
+            <Label Text="Estimated 1 REP Max (Epley Formula)">
+            </Label>
+            <Label Text="{Binding EpleyOneRepMax, Mode=TwoWay}">
+                
+            </Label>
+        </StackLayout>
     </StackLayout>
 </ContentPage>

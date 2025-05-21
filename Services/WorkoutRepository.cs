@@ -74,6 +74,11 @@ AND w.Id = (SELECT wo.Id
 ", exerciseId);
         }
 
+        public Task<Set> GetHighestWeightSet(int exerciseId)
+        {
+            return database.Table<Set>().Where(i => i.ExerciseId == exerciseId).OrderByDescending(i => i.Weight).FirstOrDefaultAsync();
+        }
+
         public Task<List<Exercise>> GetAllExercisesNotInRoutine(int routineId)
         {
             var exercises = GetExercisesByRoutine(routineId).Result.Select(x => x.Id).ToList();
