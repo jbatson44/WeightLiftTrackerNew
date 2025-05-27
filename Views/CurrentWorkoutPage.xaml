@@ -52,18 +52,21 @@
                            Text="Notes"
                            FontSize="16" />
                     <Entry Placeholder="{Binding PrevWeight, Mode=TwoWay}"
+                           PlaceholderColor="DimGray"
                            Grid.Row="1"
                            Grid.Column="0" 
                            Text="{Binding Weight, Mode=TwoWay}" 
                            FontSize="Medium" 
                            Keyboard="Numeric"/>
                     <Entry Placeholder="{Binding PrevReps, Mode=TwoWay}"
+                           PlaceholderColor="DimGray"
                            Grid.Row="1"
                            Grid.Column="1" 
                            Text="{Binding Reps, Mode=TwoWay}" 
                            FontSize="Medium" 
                            Keyboard="Numeric"/>
                     <Entry Placeholder="{Binding PrevNotes, Mode=TwoWay}"
+                           PlaceholderColor="DimGray"
                            Grid.Row="1"
                            Grid.Column="2" 
                            Text="{Binding Notes, Mode=TwoWay}" 
@@ -159,8 +162,7 @@
                     >
                 <BoxView
                         HeightRequest="3"
-                        BackgroundColor="Black"
-                        HorizontalOptions="FillAndExpand">
+                        BackgroundColor="Black">
                 </BoxView>
                 <Label 
                         Text="{Binding Title}"
@@ -192,17 +194,16 @@
                             Grid.Column="0"
                             Grid.Row="1"
                             Time="{Binding StartTime}"
-                            HorizontalOptions="CenterAndExpand"></TimePicker>
+                            HorizontalOptions="Center"></TimePicker>
                     <TimePicker 
                             Grid.Column="1"
                             Grid.Row="1"
                             Time="{Binding EndTime}"
-                            HorizontalOptions="CenterAndExpand"></TimePicker>
+                            HorizontalOptions="Center"></TimePicker>
                 </Grid>
                 <BoxView
                         HeightRequest="3"
-                        BackgroundColor="Black"
-                        HorizontalOptions="FillAndExpand">
+                        BackgroundColor="Black">
                 </BoxView>
             </StackLayout>
         </CollectionView.Header>

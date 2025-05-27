@@ -49,26 +49,26 @@
                                 </Grid.RowDefinitions>
                                 <!--Date-->
                                 <Label Grid.Column="0"
-                                       Grid.Row="1"
+                                       Grid.Row="0"
                                        Text="Date: " 
                                        LineBreakMode="NoWrap" 
                                        Style="{DynamicResource ListItemTextStyle}" 
                                        FontSize="16"/>
                                 <Label Grid.Column="1"
-                                       Grid.Row="1"
+                                       Grid.Row="0"
                                        Text="{Binding StartTime.Date, StringFormat='{0:MM/dd/yyyy}'}" 
                                        LineBreakMode="NoWrap" 
                                        Style="{DynamicResource ListItemTextStyle}" 
                                        FontSize="16"/>
                                 <!--Duration-->
                                 <Label Grid.Column="0"
-                                       Grid.Row="2"
+                                       Grid.Row="1"
                                        Text="Duration: " 
                                        LineBreakMode="NoWrap" 
                                        Style="{DynamicResource ListItemTextStyle}" 
                                        FontSize="16"/>
                                 <Label Grid.Column="1"
-                                       Grid.Row="2"
+                                       Grid.Row="1"
                                        Text="{Binding Duration, StringFormat='{0:hh\\:mm}'}" 
                                        LineBreakMode="NoWrap" 
                                        Style="{DynamicResource ListItemTextStyle}" 

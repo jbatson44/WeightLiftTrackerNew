@@ -47,8 +47,13 @@ namespace WeightLiftTracker.ViewModels
         private async void SetOneRepMaxEstimate()
         {
             var highestWeightSet = await App.Database.GetHighestWeightSet(Exercise.Id);
-            OneRepMaxEpley = (int)(highestWeightSet.Weight * (1 + highestWeightSet.Reps / 30.0));
-            OneRepMaxBrzycki = (int)(highestWeightSet.Weight * (36.0 / (37 - highestWeightSet.Reps)));
+            if (highestWeightSet != null)
+            {
+                var weight = highestWeightSet.Weight ?? 0;
+                var reps = highestWeightSet.Reps ?? 0;
+                OneRepMaxEpley = (int)(weight * (1 + reps / 30.0));
+                OneRepMaxBrzycki = (int)(weight * (36.0 / (37 - reps)));
+            }
         }
 
         public ExerciseDetailViewModel()
