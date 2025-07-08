@@ -28,9 +28,11 @@ namespace WeightLiftTracker.ViewModels
         }
         public string RoutineId
         {
+            get => routineId;
             set
             {
-                LoadEverything(value);
+                routineId = value;
+                LoadEverything(routineId);
             }
         }
         public Routine Routine { get; set; }
@@ -40,6 +42,8 @@ namespace WeightLiftTracker.ViewModels
             LoadExercises();
         }
         private List<Exercise> exercises;
+        private string routineId;
+
         public List<Exercise> Exercises 
         {
             get => exercises;
@@ -59,8 +63,8 @@ namespace WeightLiftTracker.ViewModels
         {
             try
             {
-                Exercises = App.Database.GetAllExercises().Result.OrderBy(x => x.Name).ToList();
-                SelectedExercise = Exercises.FirstOrDefault();
+                Exercises = App.Database.GetAllExercisesNotInRoutine(int.Parse(RoutineId)).Result.OrderByDescending(x => x.Id).ToList();
+                //SelectedExercise = null;//Exercises.FirstOrDefault();
             }
             catch (Exception ex)
             {

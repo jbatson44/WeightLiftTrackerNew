@@ -16,6 +16,7 @@ namespace WeightLiftTracker.ViewModels
         public Command<Routine> DeleteRoutineCommand { get; }
         public Workout ActiveWorkout { get; set; }
         public bool HasActiveWorkout { get; set; }
+        public Command ResumeWorkoutCommand { get; }
 
         public RoutinesViewModel()
         {
@@ -27,6 +28,7 @@ namespace WeightLiftTracker.ViewModels
             DeleteRoutineCommand = new Command<Routine>(DeleteRoutine);
 
             AddRoutineCommand = new Command(OnAddItem);
+            ResumeWorkoutCommand = new Command(StartWorkout);
         }
 
         async Task ExecuteLoadItemsCommand()
@@ -103,6 +105,10 @@ namespace WeightLiftTracker.ViewModels
             {
                 Debug.WriteLine(ex);
             }
+        }
+        private async void StartWorkout(object obj)
+        {
+            await Shell.Current.GoToAsync($"{nameof(CurrentWorkoutPage)}?routineId={ActiveWorkout.RoutineId}");
         }
     }
 }

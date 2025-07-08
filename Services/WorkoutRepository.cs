@@ -81,10 +81,8 @@ AND w.Id = (SELECT wo.Id
 
         public Task<List<Exercise>> GetAllExercisesNotInRoutine(int routineId)
         {
-            var exercises = GetExercisesByRoutine(routineId).Result.Select(x => x.Id).ToList();
-            var list = CommaSeparatedList(exercises);
-            string query = "SELECT * FROM Exercise WHERE Id NOT IN (" + list + ")";
-            return database.QueryAsync<Exercise>(query);
+            var exercises = GetExercisesByRoutine(routineId).Result.Select(x => x.Id);
+            return database.Table<Exercise>().Where(x => !exercises.Contains(x.Id)).ToListAsync();
         }
 
         public Task<List<Workout>> GetAllWorkouts()
