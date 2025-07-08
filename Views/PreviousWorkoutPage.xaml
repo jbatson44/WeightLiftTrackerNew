@@ -123,108 +123,105 @@
                                              CardioSetTemplate="{StaticResource CardioSetTemplate}" />
     </ContentPage.Resources>
 
-    <StackLayout 
-        x:DataType="viewmodels:PreviousWorkoutViewModel" >
-        <CollectionView 
+    <CollectionView 
             ItemsSource="{Binding Exercises}"
             ItemTemplate="{StaticResource WorkoutSetTemplateSelector}"
             IsGrouped="true">
-            <CollectionView.Header>
-                <StackLayout
+        <CollectionView.Header>
+            <StackLayout
                     BackgroundColor="{StaticResource Primary}">
-                    <BoxView
+                <BoxView
                         HeightRequest="3"
                         BackgroundColor="Black"
                         HorizontalOptions="FillAndExpand">
-                    </BoxView>
-                    <Label 
+                </BoxView>
+                <Label 
                         Text="{Binding Workout.RoutineName}"
                         FontSize="26"
                         HorizontalTextAlignment="Center">
-                    </Label>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Label 
+                </Label>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label 
                             Grid.Column="0"
                             Grid.Row="0"
                             Text="Start:" 
                             HorizontalTextAlignment="Center"
                             FontSize="18" />
-                        <Label 
+                    <Label 
                             Grid.Column="1"
                             Grid.Row="0"
                             Text="End:" 
                             HorizontalTextAlignment="Center"
                             FontSize="18" />
-                        <TimePicker 
+                    <TimePicker 
                             Grid.Column="0"
                             Grid.Row="1"
                             Time="{Binding StartTime}"
                             HorizontalOptions="CenterAndExpand"
                             IsEnabled="False"></TimePicker>
-                        <TimePicker 
+                    <TimePicker 
                             Grid.Column="1"
                             Grid.Row="1"
                             Time="{Binding EndTime}"
                             HorizontalOptions="CenterAndExpand"
                             IsEnabled="False"></TimePicker>
-                    </Grid>
-                    <BoxView
+                </Grid>
+                <BoxView
                         HeightRequest="3"
                         BackgroundColor="Black"
                         HorizontalOptions="FillAndExpand">
-                    </BoxView>
-                </StackLayout>
-            </CollectionView.Header>
-            <CollectionView.EmptyView>
-                <Label 
+                </BoxView>
+            </StackLayout>
+        </CollectionView.Header>
+        <CollectionView.EmptyView>
+            <Label 
                     Text="Empty :(">
-                </Label>
-            </CollectionView.EmptyView>
-            <CollectionView.GroupHeaderTemplate>
-                <DataTemplate>
-                    <StackLayout 
+            </Label>
+        </CollectionView.EmptyView>
+        <CollectionView.GroupHeaderTemplate>
+            <DataTemplate>
+                <StackLayout 
                         x:DataType="model:WorkoutExercise" 
                         Padding="5, 5, 5, 5"
                             BackgroundColor="{StaticResource Primary}">
-                        <Grid HeightRequest="40">
-                            <Label 
+                    <Grid HeightRequest="40">
+                        <Label 
                                 Text="{Binding ExerciseName}" 
                                 HorizontalTextAlignment="Center"
                                 VerticalOptions="Center"
                                 FontSize="20" 
                                 Padding="0, 0, 0, 0"/>
-                        </Grid>
-                    </StackLayout>
-                </DataTemplate>
-            </CollectionView.GroupHeaderTemplate>
-            <CollectionView.GroupFooterTemplate>
-                <DataTemplate>
-                    <StackLayout 
+                    </Grid>
+                </StackLayout>
+            </DataTemplate>
+        </CollectionView.GroupHeaderTemplate>
+        <CollectionView.GroupFooterTemplate>
+            <DataTemplate>
+                <StackLayout 
                         x:DataType="model:WorkoutExercise" 
                         Padding="10" 
                         HorizontalOptions="End">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                        </Grid>
-                    </StackLayout>
-                </DataTemplate>
-            </CollectionView.GroupFooterTemplate>
-            <CollectionView.Footer>
-                <StackLayout 
-                    Padding="40, 50, 40, 100">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                    </Grid>
                 </StackLayout>
-            </CollectionView.Footer>
-        </CollectionView>
-    </StackLayout>
+            </DataTemplate>
+        </CollectionView.GroupFooterTemplate>
+        <CollectionView.Footer>
+            <StackLayout 
+                    Padding="40, 50, 40, 100">
+            </StackLayout>
+        </CollectionView.Footer>
+    </CollectionView>
 </ContentPage>

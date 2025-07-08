@@ -10,7 +10,7 @@
     <ContentPage.Content>
         <StackLayout Spacing="3" Padding="15">
             <Label Text="Name" FontSize="Medium"/>
-            <Entry Text="{Binding Name, Mode=TwoWay}" FontSize="Medium" />
+            <Entry Text="{Binding Name, Mode=TwoWay}" FontSize="Medium" Keyboard="Text"/>
             <Picker Title="Category"
                     ItemsSource="{Binding ExerciseCategories}"
                     ItemDisplayBinding="{Binding Name}"
@@ -20,10 +20,17 @@
                 ItemsSource="{Binding ExerciseTypes}"
                 SelectedItem="{Binding SelectedType}">
             </Picker>
-            <StackLayout Orientation="Horizontal">
-                <Button Text="Cancel" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"></Button>
-                <Button Text="Save" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand"></Button>
-            </StackLayout>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Button Grid.Column="0" Text="Cancel" Command="{Binding CancelCommand}"></Button>
+                <Button Grid.Column="1" Text="Save" Command="{Binding SaveCommand}"></Button>
+            </Grid>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

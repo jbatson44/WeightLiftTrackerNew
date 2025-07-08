@@ -21,12 +21,9 @@ namespace WeightLiftTracker.Services
         }
 
         #region Get Methods
-        public Workout GetActiveWorkout()
+        public Task<Workout> GetActiveWorkout()
         {
-            return database.QueryAsync<Workout>(@"
-SELECT * 
-FROM Workout
-WHERE Finished = 0").Result.First();
+            return database.Table<Workout>().Where(i => i.Finished == false).FirstOrDefaultAsync();
         }
 
         public Task<List<Routine>> GetAllRoutines()
@@ -77,12 +74,15 @@ AND w.Id = (SELECT wo.Id
 ", exerciseId);
         }
 
+        public Task<Set> GetHighestWeightSet(int exerciseId)
+        {
+            return database.Table<Set>().Where(i => i.ExerciseId == exerciseId).OrderByDescending(i => i.Weight).FirstOrDefaultAsync();
+        }
+
         public Task<List<Exercise>> GetAllExercisesNotInRoutine(int routineId)
         {
-            var exercises = GetExercisesByRoutine(routineId).Result.Select(x => x.Id).ToList();
-            var list = CommaSeparatedList(exercises);
-            string query = "SELECT * FROM Exercise WHERE Id NOT IN (" + list + ")";
-            return database.QueryAsync<Exercise>(query);
+            var exercises = GetExercisesByRoutine(routineId).Result.Select(x => x.Id);
+            return database.Table<Exercise>().Where(x => !exercises.Contains(x.Id)).ToListAsync();
         }
 
         public Task<List<Workout>> GetAllWorkouts()

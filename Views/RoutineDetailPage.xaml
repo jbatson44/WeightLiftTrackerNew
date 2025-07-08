@@ -7,6 +7,7 @@
              BackgroundColor="{AppThemeBinding Light=White, Dark=Black}">
 
     <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Start" Command="{Binding StartWorkoutCommand}" />
         <ToolbarItem Text="Add" Command="{Binding AddExerciseCommand}" />
     </ContentPage.ToolbarItems>
     <!--
@@ -20,15 +21,7 @@
                             SelectionMode="None">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <SwipeView Padding="10" x:DataType="model:Exercise">
-                            <SwipeView.RightItems>
-                                <SwipeItems>
-                                    <SwipeItem Text="Delete"
-                                   BackgroundColor="Red"
-                                   Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:RoutineDetailViewModel}}, Path=DeleteExerciseCommand}"
-                                   CommandParameter="{Binding .}" />
-                                </SwipeItems>
-                            </SwipeView.RightItems>
+                        <StackLayout Padding="10" x:DataType="model:Exercise">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="50"/>
@@ -37,15 +30,20 @@
                                        LineBreakMode="NoWrap" 
                                        Style="{DynamicResource ListItemTextStyle}" 
                                        FontSize="20" />
+                                <Button Text="Delete"
+                                   BackgroundColor="Red"
+                                   Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:RoutineDetailViewModel}}, Path=DeleteExerciseCommand}"
+                                   CommandParameter="{Binding .}" 
+                                        HorizontalOptions="End"/>
                             </Grid>
-                            <SwipeView.GestureRecognizers>
+                            <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer 
                                 NumberOfTapsRequired="1"
                                 Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:RoutineDetailViewModel}}, Path=ItemTapped}"		
                                 CommandParameter="{Binding .}">
                                 </TapGestureRecognizer>
-                            </SwipeView.GestureRecognizers>
-                        </SwipeView>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

@@ -13,7 +13,7 @@
     
     <ContentPage.Resources>
         <DataTemplate x:Key="WeightSetTemplate">
-            <SwipeView Padding="10" 
+            <SwipeView 
                        x:DataType="model:WorkoutSet">
                 <SwipeView.RightItems>
                     <SwipeItems>
@@ -52,18 +52,21 @@
                            Text="Notes"
                            FontSize="16" />
                     <Entry Placeholder="{Binding PrevWeight, Mode=TwoWay}"
+                           PlaceholderColor="DimGray"
                            Grid.Row="1"
                            Grid.Column="0" 
                            Text="{Binding Weight, Mode=TwoWay}" 
                            FontSize="Medium" 
                            Keyboard="Numeric"/>
                     <Entry Placeholder="{Binding PrevReps, Mode=TwoWay}"
+                           PlaceholderColor="DimGray"
                            Grid.Row="1"
                            Grid.Column="1" 
                            Text="{Binding Reps, Mode=TwoWay}" 
                            FontSize="Medium" 
                            Keyboard="Numeric"/>
                     <Entry Placeholder="{Binding PrevNotes, Mode=TwoWay}"
+                           PlaceholderColor="DimGray"
                            Grid.Row="1"
                            Grid.Column="2" 
                            Text="{Binding Notes, Mode=TwoWay}" 
@@ -148,26 +151,24 @@
                                              WeightSetTemplate="{StaticResource WeightSetTemplate}"
                                              CardioSetTemplate="{StaticResource CardioSetTemplate}" />
     </ContentPage.Resources>
-    
-    <StackLayout 
-        x:DataType="viewmodels:CurrentWorkoutViewModel" >
+
+    <Grid x:Name="MainGrid">
         <CollectionView 
-            ItemsSource="{Binding Exercises}"
-            ItemTemplate="{StaticResource WorkoutSetTemplateSelector}"
-            IsGrouped="true">
+                ItemsSource="{Binding Exercises}"
+                ItemTemplate="{StaticResource WorkoutSetTemplateSelector}"
+                IsGrouped="true">
             <CollectionView.Header>
                 <StackLayout
-                    BackgroundColor="{StaticResource Primary}"
-                    >
+                        BackgroundColor="{StaticResource Primary}"
+                        >
                     <BoxView
-                        HeightRequest="3"
-                        BackgroundColor="Black"
-                        HorizontalOptions="FillAndExpand">
+                            HeightRequest="3"
+                            BackgroundColor="Black">
                     </BoxView>
                     <Label 
-                        Text="{Binding Title}"
-                        FontSize="26"
-                        HorizontalTextAlignment="Center">
+                            Text="{Binding Title}"
+                            FontSize="26"
+                            HorizontalTextAlignment="Center">
                     </Label>
                     <Grid>
                         <Grid.RowDefinitions>
@@ -179,57 +180,56 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Label 
-                            Grid.Column="0"
-                            Grid.Row="0"
-                            Text="Start:" 
-                            HorizontalTextAlignment="Center"
-                            FontSize="18" />
+                                Grid.Column="0"
+                                Grid.Row="0"
+                                Text="Start:" 
+                                HorizontalTextAlignment="Center"
+                                FontSize="18" />
                         <Label 
-                            Grid.Column="1"
-                            Grid.Row="0"
-                            Text="End:" 
-                            HorizontalTextAlignment="Center"
-                            FontSize="18" />
+                                Grid.Column="1"
+                                Grid.Row="0"
+                                Text="End:" 
+                                HorizontalTextAlignment="Center"
+                                FontSize="18" />
                         <TimePicker 
-                            Grid.Column="0"
-                            Grid.Row="1"
-                            Time="{Binding StartTime}"
-                            HorizontalOptions="CenterAndExpand"></TimePicker>
+                                Grid.Column="0"
+                                Grid.Row="1"
+                                Time="{Binding StartTime}"
+                                HorizontalOptions="Center"></TimePicker>
                         <TimePicker 
-                            Grid.Column="1"
-                            Grid.Row="1"
-                            Time="{Binding EndTime}"
-                            HorizontalOptions="CenterAndExpand"></TimePicker>
+                                Grid.Column="1"
+                                Grid.Row="1"
+                                Time="{Binding EndTime}"
+                                HorizontalOptions="Center"></TimePicker>
                     </Grid>
                     <BoxView
-                        HeightRequest="3"
-                        BackgroundColor="Black"
-                        HorizontalOptions="FillAndExpand">
+                            HeightRequest="3"
+                            BackgroundColor="Black">
                     </BoxView>
                 </StackLayout>
             </CollectionView.Header>
             <CollectionView.GroupHeaderTemplate>
                 <DataTemplate>
                     <StackLayout 
-                        x:DataType="model:WorkoutExercise" 
-                        Padding="5, 5, 5, 5"
-                            BackgroundColor="{StaticResource Primary}">
+                            x:DataType="model:WorkoutExercise" 
+                            Padding="5, 5, 5, 5"
+                                BackgroundColor="{StaticResource Primary}">
                         <SwipeView >
                             <SwipeView.RightItems>
                                 <SwipeItems>
                                     <SwipeItem Text="Delete"
-                                   BackgroundColor="Red"
-                                   Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CurrentWorkoutViewModel}}, Path=DeleteExerciseCommand}"
-                                   CommandParameter="{Binding .}" />
+                                       BackgroundColor="Red"
+                                       Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CurrentWorkoutViewModel}}, Path=DeleteExerciseCommand}"
+                                       CommandParameter="{Binding .}" />
                                 </SwipeItems>
                             </SwipeView.RightItems>
                             <Grid HeightRequest="40">
                                 <Label 
-                                    Text="{Binding ExerciseName}" 
-                                    HorizontalTextAlignment="Center"
-                                    VerticalOptions="Center"
-                                    FontSize="20" 
-                                    Padding="0, 0, 0, 0"/>
+                                        Text="{Binding ExerciseName}" 
+                                        HorizontalTextAlignment="Center"
+                                        VerticalOptions="Center"
+                                        FontSize="20" 
+                                        Padding="0, 0, 0, 0"/>
                             </Grid>
                         </SwipeView>
 
@@ -238,25 +238,21 @@
             </CollectionView.GroupHeaderTemplate>
             <CollectionView.EmptyView>
                 <Label 
-                    Text="Empty :(">
+                        Text="Empty :(">
                 </Label>
             </CollectionView.EmptyView>
             <CollectionView.GroupFooterTemplate>
                 <DataTemplate>
                     <StackLayout 
-                        x:DataType="model:WorkoutExercise" 
-                        Padding="10" 
-                        HorizontalOptions="End">
+                            x:DataType="model:WorkoutExercise" 
+                            Padding="10" 
+                            HorizontalOptions="End">
                         <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
                             <Button 
-                                Text="Add Set"
-                                Grid.Column="1"
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CurrentWorkoutViewModel}}, Path=AddSetCommand}"
-                                CommandParameter="{Binding .}">
+                                    Text="Add Set"
+                                    Grid.Column="1"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CurrentWorkoutViewModel}}, Path=AddSetCommand}"
+                                    CommandParameter="{Binding .}">
                             </Button>
                         </Grid>
                     </StackLayout>
@@ -264,13 +260,13 @@
             </CollectionView.GroupFooterTemplate>
             <CollectionView.Footer>
                 <StackLayout 
-                    Padding="40, 50, 40, 100">
+                        Padding="40, 50, 40, 100">
                     <Button 
-                        Text="Add Exercise"
-                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CurrentWorkoutViewModel}}, Path=AddExerciseCommand}">
+                            Text="Add Exercise"
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CurrentWorkoutViewModel}}, Path=AddExerciseCommand}">
                     </Button>
                 </StackLayout>
             </CollectionView.Footer>
         </CollectionView>
-    </StackLayout>
+    </Grid>
 </ContentPage>
