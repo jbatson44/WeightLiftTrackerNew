@@ -159,25 +159,32 @@ namespace WeightLiftTracker.ViewModels
             }
         }
 
-        public async Task GetPreviousWorkoutSetData(Exercise exercise)
+        public async Task<WorkoutExercise> GetPreviousWorkoutSetData(Exercise exercise)
         {
             var sets = await App.Database.GetLastWorkoutStatsByExerciseId(exercise.Id);
-            var prevWorkoutSets = new ObservableCollection<WorkoutSet>();
-            foreach (var set in sets)
+            if (sets != null && sets.Count > 0)
             {
-                prevWorkoutSets.Add(new WorkoutSet(set.ExerciseName, set.ExerciseType)
+                var prevWorkoutSets = new ObservableCollection<WorkoutSet>();
+                foreach (var set in sets)
                 {
-                    Id = set.Id,
-                    ExerciseName = set.ExerciseName,
-                    PrevReps = set.Reps,
-                    PrevWeight = set.Weight,
-                    PrevDistance = set?.Distance,
-                    PrevMinutes = set?.Minutes,
-                    PrevSeconds = set?.Seconds,
-                    PrevNotes = set?.Notes
-                });
+                    prevWorkoutSets.Add(new WorkoutSet(set.ExerciseName, set.ExerciseType)
+                    {
+                        Id = set.Id,
+                        ExerciseName = set.ExerciseName,
+                        PrevReps = set.Reps,
+                        PrevWeight = set.Weight,
+                        PrevDistance = set?.Distance,
+                        PrevMinutes = set?.Minutes,
+                        PrevSeconds = set?.Seconds,
+                        PrevNotes = set?.Notes
+                    });
+                }
+                return new WorkoutExercise(exercise.Id, exercise.Name, exercise.Type, prevWorkoutSets);
             }
-            PreviousExercises.Add(new WorkoutExercise(exercise.Id, exercise.Name, exercise.Type, prevWorkoutSets));
+            return new WorkoutExercise(exercise.Id, exercise.Name, exercise.Type, new ObservableCollection<WorkoutSet>
+            {
+                new WorkoutSet(exercise.Name, exercise.Type)
+            });
         }
 
         private async void OpenAddExercisePage(object obj)
@@ -194,13 +201,8 @@ namespace WeightLiftTracker.ViewModels
 
         private async void AddExercise(Exercise exercise)
         { 
-            await GetPreviousWorkoutSetData(exercise);
-            var newEx = new WorkoutExercise(exercise.Id, exercise.Name, exercise.Type, new ObservableCollection<WorkoutSet>
-                        {
-                            new WorkoutSet(exercise.Name, exercise.Type)
-                        });
+            var newEx = await GetPreviousWorkoutSetData(exercise);
             Exercises.Add(newEx);
-            SetExercisePreviousSetData(newEx);
         }
 
         /// <summary>
@@ -224,32 +226,39 @@ namespace WeightLiftTracker.ViewModels
             int rows = await App.Database.SaveWorkoutAsync(workout);
             if (rows > 0)
             {
+                List<Set> setsToSave = new();
+
                 foreach (var ex in Exercises)
                 {
                     for (int i = 0; i < ex.Count; i++)
                     {
-                        if ((ex[i].ExerciseType == (int)ExerciseTypeEnum.Weights && ex[i].Reps > 0) || 
-                            (ex[i].ExerciseType == (int)ExerciseTypeEnum.Cardio && 
-                            (ex[i].Distance > 0 || ex[i].Minutes > 0 || ex[i].Seconds > 0)))
+                        var entry = ex[i];
+
+                        bool isValidWeightExercise = entry.ExerciseType == (int)ExerciseTypeEnum.Weights && entry.Reps > 0;
+                        bool isValidCardioExercise = entry.ExerciseType == (int)ExerciseTypeEnum.Cardio &&
+                                             (entry.Distance > 0 || entry.Minutes > 0 || entry.Seconds > 0);
+
+                        if (isValidWeightExercise || isValidCardioExercise)
                         {
-                            Set set = new Set
+                            setsToSave.Add(new Set
                             {
                                 SetNumber = i,
                                 ExerciseId = ex.ExerciseId,
                                 ExerciseName = ex.ExerciseName,
-                                Reps = ex[i].Reps ?? 0,
-                                Weight = ex[i].Weight ?? 0,
+                                Reps = entry.Reps ?? 0,
+                                Weight = entry.Weight ?? 0,
                                 WorkoutId = workout.Id,
                                 ExerciseType = ex.ExerciseType,
-                                Distance = ex[i].Distance,
-                                Minutes = ex[i].Minutes,
-                                Seconds = ex[i].Seconds,
-                                Notes = ex[i].Notes,
-                            };
-                            rows = await App.Database.SaveSetAsync(set);
+                                Distance = entry.Distance,
+                                Minutes = entry.Minutes,
+                                Seconds = entry.Seconds,
+                                Notes = entry.Notes,
+                            });
                         }
                     }
                 }
+
+                rows = await App.Database.SaveSetsAsync(setsToSave);
             }
 
             await Shell.Current.GoToAsync("..");
